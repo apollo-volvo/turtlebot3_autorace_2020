@@ -424,7 +424,7 @@ class DetectLane():
         if self.reliability_white_line > 50 and self.reliability_yellow_line > 50:   
             if white_fraction > 3000 and yellow_fraction > 3000:
                 # centerx = np.mean([self.left_fitx, self.right_fitx], axis=0)
-                centerx = 0.7 * self.left_fitx + 0.3 * self.right_fitx
+                centerx = 0.8 * self.left_fitx + 0.2 * self.right_fitx
                 pts = np.hstack((pts_left, pts_right))
                 pts_center = np.array([np.transpose(np.vstack([centerx, ploty]))])
 
