@@ -439,7 +439,7 @@ class DetectLane():
         elif self.pub_image_type == "raw":
             self.pub_image_lane.publish(self.cvBridge.cv2_to_imgmsg(final, "bgr8"))
 
-    def make__lane(self, cv_image, white_fraction):
+    def make_white_lane(self, cv_image, white_fraction):
         # Create a blank image for drawing the lane
         warp_zero = np.zeros((cv_image.shape[0], cv_image.shape[1], 1), dtype=np.uint8)
         color_warp_lines = np.dstack((warp_zero, warp_zero, warp_zero))
@@ -448,12 +448,12 @@ class DetectLane():
 
         if white_fraction > 3000:
             # draw visualised yellow line lane indicator
-            pts_left = np.array([np.flipud(np.transpose(np.vstack([self.left_fitx, ploty])))])
-            cv2.polylines(color_warp_lines, np.int64([pts_left]), isClosed=False, color=(0, 0, 255), thickness=25)
+            pts_right = np.array([np.flipud(np.transpose(np.vstack([self.right_fitx, ploty])))])
+            cv2.polylines(color_warp_lines, np.int64([pts_right]), isClosed=False, color=(0, 255, 0), thickness=25)
 
             # Move slightly to the right of the yellow line
-            right_offset = 500
-            centerx = np.add(self.left_fitx, right_offset)
+            left_offset = 500
+            centerx = np.subtract(self.right_fitx, left_offset)
             self.is_center_x_exist = True
 
             pts_center = np.array([np.transpose(np.vstack([centerx, ploty]))])
