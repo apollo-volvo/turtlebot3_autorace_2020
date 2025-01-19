@@ -43,20 +43,20 @@ class ControlLane():
 
         error = center - 500
 
-        Kp = 0.0025
+        Kp = 0.0005
         Kd = 0.007
 
         angular_z = Kp * error + Kd * (error - self.lastError)
         self.lastError = error
         
         twist = Twist()
-        # twist.linear.x = 0.05        
-        twist.linear.x = min(self.MAX_VEL * ((1 - abs(error) / 500) ** 2.2), 0.05)
+        twist.linear.x = 0.02       
+        #twist.linear.x = min(self.MAX_VEL * ((1 - abs(error) / 500) ** 2.2), 0.05)
         twist.linear.y = 0
         twist.linear.z = 0
         twist.angular.x = 0
         twist.angular.y = 0
-        twist.angular.z = -max(angular_z, -2.0) if angular_z < 0 else -min(angular_z, 2.0)
+        twist.angular.z = -max(angular_z, -0.5) if angular_z < 0 else -min(angular_z, 0.5)
         self.pub_cmd_vel.publish(twist)
 
     def fnShutDown(self):
