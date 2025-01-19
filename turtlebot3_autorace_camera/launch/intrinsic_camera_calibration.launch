@@ -5,7 +5,7 @@
       <remap from="in"  to="camera/rgb/image_raw" />
       <remap from="out"   to="camera/image"/>
     </node>
-    <node pkg="topic_tools" type="relay" name="relay_camera_info" args="/camera/rgb/camera_info /camera/camera_info"/>
+    <node pkg="topic_tools" type="relay" name="relay_camera_info" args="/camera/rgb/camera_info/camera/camera_info"/>
   </group>
 
   <!-- image rectification -->
