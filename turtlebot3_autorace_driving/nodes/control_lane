@@ -43,14 +43,14 @@ class ControlLane():
 
         error = center - 500
 
-        Kp = 0.0005
+        Kp = 0.00025
         Kd = 0.007
 
         angular_z = Kp * error + Kd * (error - self.lastError)
         self.lastError = error
         
         twist = Twist()
-        twist.linear.x = 0.02       
+        twist.linear.x = 0.02      
         #twist.linear.x = min(self.MAX_VEL * ((1 - abs(error) / 500) ** 2.2), 0.05)
         twist.linear.y = 0
         twist.linear.z = 0
@@ -58,6 +58,30 @@ class ControlLane():
         twist.angular.y = 0
         twist.angular.z = -max(angular_z, -0.5) if angular_z < 0 else -min(angular_z, 0.5)
         self.pub_cmd_vel.publish(twist)
+
+    # def cbFollowLane(self, desired_center):
+    #     center = desired_center.data
+
+    #     error = center - 500  # Assuming 500 is the center of the image
+
+    #     Kp = 0.001  # Proportional gain
+    #     Kd = 0.005   # Derivative gain
+
+    #     angular_z = Kp * error + Kd * (error - self.lastError)
+    #     self.lastError = error
+
+    #     twist = Twist()
+    #     twist.linear.x = 0.02  # Move forward at a constant speed
+    #     twist.linear.y = 0
+    #     twist.linear.z = 0
+    #     twist.angular.x = 0
+    #     twist.angular.y = 0
+
+    #     #twist.angular.z = -max(angular_z, -0.5) if angular_z < 0 else -min(angular_z, 0.5)
+    #     # Directly set angular_z without reversing the sign
+    #     twist.angular.z = max(min(angular_z, 0.5), -0.5)  # Limit angular velocity between -0.5 and 0.5
+
+    #     self.pub_cmd_vel.publish(twist)
 
     def fnShutDown(self):
         rospy.loginfo("Shutting down. cmd_vel will be 0")
